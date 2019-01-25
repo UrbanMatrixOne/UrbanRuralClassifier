@@ -62,11 +62,13 @@ def main():
 
     #process results
     predicted_class_indices=np.argmax(predictions,axis=1)
+    predicted_class_prob=np.max(predictions,axis=1)
     labelled_predictions = [LABELS[k] for k in predicted_class_indices]
     image_metadata = pd.DataFrame([s for s in [re.findall(r'-?\d+\.?\d*',filename) for filename in predict_generator.filenames]], 
              columns=('lon','lat','zoom'))
     results = pd.DataFrame({'Filename':predict_generator.filenames,
                 'Prediction': labelled_predictions, 
+                'probability': predicted_class_prob,
                 'lon': image_metadata.lon, 
                 'lat': image_metadata.lat,
                 'zoom': image_metadata.zoom})
