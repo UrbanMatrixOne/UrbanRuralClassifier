@@ -13,7 +13,7 @@ import os, sys, re
 from absl import flags
 
 
-WEIGHT_PATH = './weights/best_weights.hdf5'
+#WEIGHT_PATH = './weights/best_weights.hdf5'
 LABELS = {0: 'Biomass',
  1: 'Coal',
  2: 'Gas',
@@ -28,6 +28,7 @@ LABELS = {0: 'Biomass',
 
 flags.DEFINE_string('input_dir', None, 'Directory that contains the images to classify')
 flags.DEFINE_string('output_file', None, 'csv to create with output')
+flags.DEFINE_string('model_weight_path', './weights/best_weights.hdf5', 'path to pretrained model weights')
 FLAGS = flags.FLAGS
 FLAGS(sys.argv)
 
@@ -49,7 +50,7 @@ def main():
 
     #load pre-trained weights
 
-    model.load_weights(WEIGHT_PATH)
+    model.load_weights(FLAGS.model_weight_path)
     model.compile(loss = "categorical_crossentropy", optimizer = optimizers.SGD(lr=0.001, momentum=0.9), metrics=["accuracy"])
 
     #data generator:
